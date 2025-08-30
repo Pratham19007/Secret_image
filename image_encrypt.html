@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Encryption</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: #fff;
+            max-width: 420px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 32px 28px 24px 28px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(33,147,176,0.18);
+            position: relative;
+        }
+        .container h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 18px;
+            color: #2193b0;
+            letter-spacing: 1px;
+        }
+        .icon {
+            display: block;
+            margin: 0 auto 10px auto;
+            font-size: 2.5rem;
+            color: #6dd5ed;
+        }
+        label {
+            font-weight: 500;
+            color: #2193b0;
+            margin-top: 10px;
+        }
+        input[type="file"] {
+            width: 100%;
+            margin: 16px 0;
+            padding: 8px;
+            border-radius: 7px;
+            border: 1px solid #b2ebf2;
+            background: #f7fbfc;
+            transition: border-color 0.2s;
+        }
+        input[type="file"]:hover {
+            border-color: #2193b0;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(33,147,176,0.10);
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
+        }
+        .result {
+            margin-top: 24px;
+            text-align: center;
+        }
+        .result img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(33,147,176,0.07);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 18px;
+            color: #90caf9;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="icon">🔒</span>
+        <h2>Encrypt Image</h2>
+        <form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+            <label for="image" style="align-self: flex-start;">Upload Image to Encrypt</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+            <label for="set_key" style="align-self: flex-start;">Set Encryption Key</label>
+            <input type="text" id="set_key" name="set_key" required placeholder="Enter key">
+            <button type="submit">Encrypt & Show</button>
+        </form>
+        {% if encrypted_img %}
+        <div class="result">
+            <h3>Encrypted Image (not viewable until decrypted):</h3>
+            <img src="data:image/png;base64,{{ encrypted_img }}" alt="Encrypted Image">
+        </div>
+        {% endif %}
+        {% if show_decrypt_form %}
+        <form method="post" style="display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 24px;">
+            <label for="decrypt_key" style="align-self: flex-start;">Enter Key to Decrypt</label>
+            <input type="text" id="decrypt_key" name="decrypt_key" required placeholder="Enter key">
+            <button type="submit">Decrypt & Show</button>
+        </form>
+        {% endif %}
+        {% if decrypted_img %}
+        <div class="result">
+            <h3>Decrypted Image:</h3>
+            {% if decrypted_img == 'ERROR' %}
+            <p style="color:red;">Incorrect key or corrupted image.</p>
+            {% else %}
+            <img src="data:image/png;base64,{{ decrypted_img }}" alt="Decrypted Image">
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="footer">Made with Caesar Cipher | Team 19</div>
+    </div>
+</body>
+</html>
+                        
